@@ -144,7 +144,7 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
         const waktuVal  = data.waktu;
     
         const wib = " wib";
-        const waktu =  now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds()+ wib;
+        const waktuInput =  now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds()+ wib;
 
         // contoh update (ubah pulang & waktu saja)
         const updateData = {
@@ -152,7 +152,7 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
             photo: photoVal,
             date: dateVal,
             waktu: waktuVal, 
-            pulang: waktu
+            pulang: waktuInput
         };
 
         // 🚀 update ke Firebase
