@@ -123,6 +123,7 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
     const db = firebase.database();
 
     const nama = localStorage.getItem("username");
+    const tanggalInput = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
 
     if (!nama) {
         alert("Username tidak ditemukan!");
@@ -130,7 +131,7 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
     }
 
     // 🔍 ambil data dari check
-    db.ref("absen/" + tanggal + "/" + nama).once("value", function(snapshot){
+    db.ref("absen/" + tanggalInput + "/" + nama).once("value", function(snapshot){
 
     if(snapshot.exists()){
 
@@ -145,6 +146,7 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
     
         const wib = " wib";
         const waktuInput =  now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds()+ wib;
+       
 
         // contoh update (ubah pulang & waktu saja)
         const updateData = {
@@ -156,8 +158,8 @@ const waktu = `${jam}:${menit}:${detik} WIB`;
         };
 
         // 🚀 update ke Firebase
-        db.ref("absen/" + tanggal + "/" + nama).update(updateData);
-        db.ref("periode/" + nama + "/" + tanggal).update(updateData);
+        db.ref("absen/" + tanggalInput + "/" + nama).update(updateData);
+        db.ref("periode/" + nama + "/" + tanggalInput).update(updateData);
         Swal.fire({
                         icon: "success",
                         title: "Berhasil di Update",
