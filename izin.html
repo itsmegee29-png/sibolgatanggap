@@ -188,10 +188,8 @@ window.kirimData = function(){
     const bulan = namabulan[now.getMonth()];
     const tampilanBulan = now.getDate() + " " + bulan + " " + now.getFullYear();
 
-    const tanggalKey = 
-        now.getDate().toString().padStart(2,'0') +
-        (now.getMonth()+1).toString().padStart(2,'0') +
-        now.getFullYear();
+    const tanggalKey = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
+       
 
     const imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSosCjg0DblIawJgK-19IeqxlOck6TdU_EJHQ&s";
     const tidakmasuk ="Tidak Hadir";
