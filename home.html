@@ -93,6 +93,48 @@ border:1px solid #ddd;
     font-size:15px;
     font-weight:bold;
 }
+
+#pagination {
+    margin-top: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#pagination button {
+    padding: 8px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Tombol Prev */
+.btn-prev {
+    background-color: #ff9800; /* orange terang */
+    color: white;
+}
+
+.btn-prev:hover {
+    background-color: #e68900;
+}
+
+/* Tombol Next */
+.btn-next {
+    background-color: #4CAF50; /* hijau terang */
+    color: white;
+}
+
+.btn-next:hover {
+    background-color: #3e8e41;
+}
+
+/* Saat disabled */
+#pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
 </style>
 </head>
 
@@ -513,11 +555,11 @@ function renderPagination() {
 
     const totalPages = Math.ceil(allData.length / rowsPerPage);
 
-    let html = `
-        <button onclick="prevPage()" ${currentPage === 1 ? "disabled" : ""}>Prev</button>
-        Halaman ${currentPage} / ${totalPages}
-        <button onclick="nextPage()" ${currentPage === totalPages ? "disabled" : ""}>Next</button>
-    `;
+   let html = `
+    <button class="btn-prev" onclick="prevPage()" ${currentPage === 1 ? "disabled" : ""}>Prev</button>
+    Halaman ${currentPage} / ${totalPages}
+    <button class="btn-next" onclick="nextPage()" ${currentPage === totalPages ? "disabled" : ""}>Next</button>
+`;
 
     document.getElementById("pagination").innerHTML = html;
 }
