@@ -58,7 +58,7 @@ background:#008ecc;
  <a href="home.html" style="font-size:20px;">Kembali</a>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -71,23 +71,38 @@ function absenPulang(){
                     (now.getMonth() + 1).toString().padStart(2,'0') +
                     now.getFullYear();
 
-    const hour = now.getHours();
+  // ambil jam WIB
+const formatter = new Intl.DateTimeFormat('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+});
 
-    // ✅ VALIDASI JAM (minimal jam 17)
-    if (hour < 17) {
+const parts = formatter.formatToParts(now);
 
-        Swal.fire({
-            icon: 'warning',
-            title: 'Belum waktunya pulang!',
-            text: 'Absensi pulang hanya bisa setelah jam 17:00 WIB',
-            confirmButtonText: 'OK'
-        }).then(() => {
-            // 🔁 pindah halaman
-            window.location.href = "home.html";
-        });
+let jam = parts.find(p => p.type === 'hour').value;
+let menit = parts.find(p => p.type === 'minute').value;
+let detik = parts.find(p => p.type === 'second').value;
 
-        return;
-    }
+const hour = parseInt(jam);
+
+// validasi pulang
+if (hour < 17) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Belum waktunya pulang!',
+        text: 'Absensi pulang hanya bisa setelah jam 17:00 WIB',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        window.location.href = "home.html";
+    });
+    return;
+}
+
+// waktu pulang (WIB)
+const waktu = `${jam}:${menit}:${detik} WIB`;
 
     // 🔥 Firebase config
     const firebaseConfig = {
@@ -127,7 +142,7 @@ function absenPulang(){
         const pulangVal = data.pulang;
         const dateVal   = data.date;
         const waktuVal  = data.waktu;
-        const now = new Date();
+    
         const wib = " wib";
         const waktu =  now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds()+ wib;
 
@@ -161,7 +176,7 @@ function absenPulang(){
    
 }
 </script>
-</script>
+
 </body>
 </html>
 
