@@ -170,6 +170,7 @@ border:1px solid #ddd;
          <a href="hadir.html">Data </a>
          <a href="passw.html">Ganti Password </a>
         <a href="izintabel.html" id="menuIzin" style="display:none;">Request Izin Karyawan</a>
+        <a href="Register.html" id="menuRegister" style="display:none;">Registrasi User</a>
          <a href="index.html">Logout</a>
       </div>
    </div>
@@ -190,6 +191,10 @@ function toggleMenu(){
 document.getElementById("user").textContent = username;
 
 // cek jika Nurhakiki
+if (username === "Nurhakiki") {
+    document.getElementById("menuRegister").style.display = "block";
+}
+
 if (username === "Nurhakiki") {
     document.getElementById("menuIzin").style.display = "block";
 }
