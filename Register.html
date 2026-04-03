@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register User</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* Container */
+.box {
+    width: 100%;
+    max-width: 380px;
+    padding: 20px;
+}
+
+/* Glass Card */
+.form {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    color: white;
+    animation: fadeIn 0.7s ease;
+}
+
+.form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Input */
+.inputbox {
+    margin-bottom: 18px;
+}
+
+.inputbox input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.inputbox input:focus {
+    box-shadow: 0 0 0 2px #fff;
+}
+
+/* Button */
+.sub {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #00c6ff;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sub:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Responsive */
+@media(max-width: 480px){
+    .form {
+        padding: 20px;
+    }
+}
+
+/* Animasi */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: white;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background: rgba(0,0,0,0.6);
+}
+</style>
+</head>
+
+<body>
+
+    <a href="home.html" class="home-btn">🏠 Home</a>
+
+<div class="box">
+    <div class="form">
+        <h2>Register User</h2>
+
+        <form id="registerForm">
+            <div class="inputbox">
+                <input type="text" id="username" required placeholder="Username">
+            </div>
+
+            <div class="inputbox">
+                <input type="text" id="jabatan" required placeholder="Jabatan">
+            </div>
+
+           <div class="inputbox">
+                 <input type="password" id="password" value="123" readonly>
+            </div>
+
+            <input type="submit" value="Daftar" class="sub">
+        </form>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+const firebaseConfig = {
+             apiKey: "AIzaSyC0D0j5H_er4TYdRdQj7xqCiTCSas30YY0",
+                 authDomain: "backuptransksi.firebaseapp.com",
+    databaseURL: "https://backuptransksi-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "backuptransksi",
+    storageBucket: "backuptransksi.appspot.com",
+    messagingSenderId: "205255091131",
+    appId: "1:205255091131:web:978ed2abb274747c621a9e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const jabatan = document.getElementById("jabatan").value;
+    const password = document.getElementById("password").value;
+
+    set(ref(db, "users/" + username), {
+        username: username,
+        jabatan: jabatan,
+        password: password
+    });
+
+    alert("Registrasi berhasil di Tambahkan !");
+});
+</script>
+
+</body>
+</html>
