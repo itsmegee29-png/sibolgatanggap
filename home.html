@@ -149,58 +149,6 @@ border:1px solid #ddd;
     background-color: #ccc;
     cursor: not-allowed;
 }
-</style>
-</head>
-
-<body>
-
-<nav class="navbar">
-
-    <div class="logo">
-    <img src="https://tse2.mm.bing.net/th/id/OIP._0TjYxHppaCbIpnGso34RwHaDP?pid=Api&P=0&h=180" alt="logo">
-    <span>Tanggap Darurat Sibolga</span>
-  </div>
-   <div class="profile-menu">
-      <img src="https://res.cloudinary.com/deybh6pja/image/upload/v1773302450/project_helmet_architect_constructor_builder_icon_255747.png" class="profile-img" onclick="toggleMenu()">
-
-      <div class="dropdown" id="dropdownMenu">
-         <a href="profile.html">Profile <span id="user"></span></a>
-         <a href="cekwaktu2.html" id="AbsenMasuk">Absen Kehadiran</a>
-         <a href="checkAbsenPulang.html" id="AbsenPulang" style="display:none;">Absen Pulang</a>
-         <a href="hadir.html">Data </a>
-         <a href="passw.html">Ganti Password </a>
-        <a href="izintabel.html" id="menuIzin" style="display:none;">Request Izin Karyawan</a>
-        <a href="Register.html" id="menuRegister" style="display:none;">Registrasi User</a>
-         <a href="index.html">Logout</a>
-      </div>
-   </div>
-</nav>
- 
-  
-<script>
-function toggleMenu(){
-   const menu = document.getElementById("dropdownMenu");
-   menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
- const username = localStorage.getItem("username");
-        if (username) {
-            document.getElementById("user").textContent = username;}
-
-
-// tampilkan nama di menu
-document.getElementById("user").textContent = username;
-
-// cek jika Nurhakiki
-if (username === "Nurhakiki") {
-    document.getElementById("menuRegister").style.display = "block";
-}
-
-if (username === "Nurhakiki") {
-    document.getElementById("menuIzin").style.display = "block";
-}
-</script>
-
-<style>
 
 body{
 font-family: Arial;
@@ -334,6 +282,57 @@ button{
     }
 }
 </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+    <img src="https://tse2.mm.bing.net/th/id/OIP._0TjYxHppaCbIpnGso34RwHaDP?pid=Api&P=0&h=180" alt="logo">
+    <span>Tanggap Darurat Sibolga</span>
+  </div>
+   <div class="profile-menu">
+      <img src="https://res.cloudinary.com/deybh6pja/image/upload/v1773302450/project_helmet_architect_constructor_builder_icon_255747.png" class="profile-img" onclick="toggleMenu()">
+
+      <div class="dropdown" id="dropdownMenu">
+         <a href="profile.html">Profile <span id="user"></span></a>
+         <a href="cekwaktu2.html" id="AbsenMasuk">Absen Kehadiran</a>
+         <a href="checkAbsenPulang.html" id="AbsenPulang" style="display:none;">Absen Pulang</a>
+         <a href="hadir.html">Data </a>
+         <a href="passw.html">Ganti Password </a>
+        <a href="izintabel.html" id="menuIzin" style="display:none;">Request Izin Karyawan</a>
+        <a href="Register.html" id="menuRegister" style="display:none;">Registrasi User</a>
+         <a href="index.html">Logout</a>
+      </div>
+   </div>
+</nav>
+ 
+  
+<script>
+function toggleMenu(){
+   const menu = document.getElementById("dropdownMenu");
+   menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+ const username = localStorage.getItem("username");
+        if (username) {
+            document.getElementById("user").textContent = username;}
+
+
+// tampilkan nama di menu
+document.getElementById("user").textContent = username;
+
+// cek jika Nurhakiki
+if (username === "Nurhakiki") {
+    document.getElementById("menuRegister").style.display = "block";
+}
+
+if (username === "Nurhakiki") {
+    document.getElementById("menuIzin").style.display = "block";
+}
+</script>
+
+
 </head>
 
 <body>
@@ -492,23 +491,21 @@ const pukul = "pkl. ";
 const wib = " .wib";
 const tanggal = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
 let currentPage = 1;
-let rowsPerPage = 5; // jumlah data per halaman
+let rowsPerPage = 10; // jumlah data per halaman
 let allData = [];
+let filteredData = [];
+
+
 
 document.getElementById("searchInput").addEventListener("keyup", function() {
     let filter = this.value.toLowerCase();
-    let rows = document.querySelectorAll("#isiData tr");
 
+    filteredData = allData.filter(item => 
+        item.nama.toLowerCase().includes(filter)
+    );
 
-
-    rows.forEach(function(row) {
-        let text = row.innerText.toLowerCase();
-        if (text.includes(filter)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
+    currentPage = 1; // reset ke halaman awal
+    renderTable();
 });
 
 const dbRef = ref(db, "absen/"+tanggal);
@@ -527,16 +524,29 @@ onValue(dbRef, (snapshot) => {
         return;
     }
 
+    // 🔥 PINDAHKAN KE SINI
     allData = Object.values(data);
-    currentPage = 1; // reset halaman saat load data
+
+    // 🔥 SORT BERDASARKAN JAM MASUK (TERKECIL DI ATAS)
+    allData.sort((a, b) => {
+        // kalau kosong, taruh di bawah
+        if (!a.waktu) return 1;
+        if (!b.waktu) return -1;
+
+        return a.waktu.localeCompare(b.waktu);
+    });
+
+filteredData = allData;
+    currentPage = 1;
 
     renderTable();
 });
+
     function renderTable() {
 
     let start = (currentPage - 1) * rowsPerPage;
-    let end = start + rowsPerPage;
-    let paginatedData = allData.slice(start, end);
+   let end = start + rowsPerPage;
+   let paginatedData = filteredData.slice(start, end);
 
     let html = "";
     let no = start + 1;
@@ -572,7 +582,7 @@ onValue(dbRef, (snapshot) => {
 
 function renderPagination() {
 
-    const totalPages = Math.ceil(allData.length / rowsPerPage);
+   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
    let html = `
     <button class="btn-prev" onclick="prevPage()" ${currentPage === 1 ? "disabled" : ""}>Prev</button>
@@ -584,7 +594,7 @@ function renderPagination() {
 }
 
 function nextPage() {
-    const totalPages = Math.ceil(allData.length / rowsPerPage);
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
         renderTable();
@@ -599,7 +609,7 @@ function prevPage() {
 }
 
 window.nextPage = function() {
-    const totalPages = Math.ceil(allData.length / rowsPerPage);
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
         renderTable();
