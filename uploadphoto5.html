@@ -235,6 +235,35 @@ border-radius:5px;
         console.error("Upload gagal:", error);
     }
 }
+
+// CEK WAKTU ABSEN (AUTO SAAT HALAMAN DIBUKA)
+function cekWaktuAbsen() {
+    const now = new Date();
+
+    // Ambil jam & menit
+    const jam = now.getHours();
+    const menit = now.getMinutes();
+
+    // Batas waktu 08:16
+    if (jam > 8 || (jam === 8 && menit >= 15)) {
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Waktu Absen Lewat!',
+            text: 'Silakan kembali ke halaman utama',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = "home.html";
+        });
+
+    }
+}
+
+// Jalankan saat halaman load
+cekWaktuAbsen();
+
+// Optional: cek tiap 30 detik (biar tetap ke-detect kalau user diam)
+setInterval(cekWaktuAbsen, 10000);
 </script>
 </body>
 </html>
