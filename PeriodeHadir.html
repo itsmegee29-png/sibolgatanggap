@@ -346,6 +346,10 @@ setInterval(waktuIndonesia,1000);
 <div class="table-container">
    <input type="text" id="searchInput" placeholder="Cari nama.." 
 style="margin-bottom:10px; padding:8px; width:100%; max-width:200px;">  
+
+<button onclick="downloadExcel()" style="background:#4CAF50;">
+    Download Excel
+</button>
 <table>
 
 <thead>
@@ -545,7 +549,21 @@ window.prevPage = function() {
     }
 }
 </script>
+<script>
+function downloadExcel() {
+    let table = document.querySelector("table");
+    let html = table.outerHTML;
 
+    let url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = "data_absen.xls";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
 </table>
 <div id="pagination" style="margin-top:8px; text-align:center;"></div>
 </body>
