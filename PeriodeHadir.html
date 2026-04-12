@@ -284,9 +284,9 @@ button{
 </head>
 
 <body>
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <nav class="navbar">
-   <div class="logo">Daftar Sudah Hadir Hari Ini </div><br>
+   <div class="logo">Data Kehadiran </div><br>
   
    <div class="profile-menu">
       <img src="https://res.cloudinary.com/deybh6pja/image/upload/v1773302450/project_helmet_architect_constructor_builder_icon_255747.png" class="profile-img" onclick="toggleMenu()">
@@ -411,6 +411,34 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10
             measurementId: "G-QFJDCS967X"
             };
 
+window.downloadExcel = function () {
+
+    if (allData.length === 0) {
+        alert("Data kosong!");
+        return;
+    }
+
+    // format data untuk excel
+    let dataExcel = allData.map((item, index) => {
+        return {
+            No: index + 1,
+            Tanggal: item.date || "-",
+            Nama: item.nama || "-",
+            "Jam Masuk": item.waktu || "-",
+            "Jam Pulang": item.pulang || "-"
+        };
+    });
+
+    // buat worksheet
+    const ws = XLSX.utils.json_to_sheet(dataExcel);
+
+    // buat workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Data Absen");
+
+    // download file
+    XLSX.writeFile(wb, "Data_Absen.xlsx");
+}
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
