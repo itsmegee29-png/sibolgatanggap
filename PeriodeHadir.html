@@ -347,9 +347,23 @@ setInterval(waktuIndonesia,1000);
    <input type="text" id="searchInput" placeholder="Cari nama.." 
 style="margin-bottom:10px; padding:8px; width:100%; max-width:200px;">  
 
-<button onclick="downloadExcel()" style="background:#4CAF50;">
-    Download Excel
-</button>
+ <button id="btnDownload" onclick="downloadExcel()" style="background:#4CAF50; display:none;">
+       Download Excel
+   </button>
+</div>
+
+<script>
+   // ambil username dari localStorage
+   let username = localStorage.getItem("username");
+
+   // daftar user yang diizinkan
+   let allowedUsers = ["Nurhakiki", "Henri Yuliansyah"];
+
+   // cek apakah username termasuk
+   if (allowedUsers.includes(username)) {
+       document.getElementById("btnDownload").style.display = "inline-block";
+   }
+</script>
 <table>
 
 <thead>
