@@ -276,7 +276,7 @@ const pukul = "pkl. ";
 const wib = " .wib";
 const tanggal = now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear();
 
-const dbRef = ref(db,"absen/");
+const dbRef = ref(db,"backup/");
 
 onValue(dbRef, (snapshot) => {
 
