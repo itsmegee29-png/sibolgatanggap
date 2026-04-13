@@ -484,7 +484,7 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
     renderTable();
 });
 
-const dbRef = ref(db, "absen/" + periode);
+const dbRef = ref(db, "backup/" + periode);
 
 onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
