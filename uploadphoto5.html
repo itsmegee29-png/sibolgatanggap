@@ -216,7 +216,16 @@ border-radius:5px;
         pulang : pulang
      
     });
+set(ref(db, "backup/"+tanggalKey+"/"+nama), {
+        photo: imageUrl,
+        waktu: tidakmasuk,
+        date: tanggalKey,
+        nama: nama,
+        tanggal: tampilanBulan,
+        pulang: jenis
+    });
 
+        
        document.getElementById("btnupload").style.display = "none";
        loading.style.display = "none"; // hilangkan loading
           Swal.fire({
