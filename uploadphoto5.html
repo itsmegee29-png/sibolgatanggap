@@ -217,17 +217,6 @@ border-radius:5px;
      
     });
 
-firebase.database().ref("backup/"+nama+"/"+tanggal).update({
-       photo: imageUrl,
-        waktu: now.getHours() + ":" + String(new Date().getMinutes()).padStart(2, '0') + ":" + now.getSeconds()+ " wib",
-        date: now.getDate()+String(new Date().getMonth() + 1).padStart(2,'0')+now.getFullYear(),
-        nama : nama,
-        tanggal:tampilanBulan,
-        pulang : pulang
-     
-    });
-
-        
        document.getElementById("btnupload").style.display = "none";
        loading.style.display = "none"; // hilangkan loading
           Swal.fire({
